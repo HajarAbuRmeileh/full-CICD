@@ -23,14 +23,18 @@ jobs:
       env-file: my-environment-file.env 
 
     steps:
-
-      - uses: actions/checkout@v1
-      - name: Set up JDK 18
-        uses: actions/setup-java@v1
-        with:
+     - uses: actions/checkout@v2
+     - name: Set up JDK 18
+       uses: actions/setup-java@v1
+       with:
          java-version: 18
-      - name: Build with Maven
-        run: mvn -B clean package
+     - name: Build with Maven
+       run: mvn -B clean package
+     - name: Archive jar file
+       uses: actions/upload-artifact@v2
+       with:
+         name: myjar
+         path: target/ppu-1.0-SNAPSHOT.jar
 
   Docker: 
  
@@ -40,16 +44,19 @@ jobs:
 
 
     steps:
-
+      - uses: actions/checkout@v1
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }}
+          -p ${{ secrets.DOCKER_PASSWORD }}
           
+      - name: Set up JDK 18
+        uses: actions/setup-java@v1
+        with:
+         java-version: 18
+      - name: Build with Maven
+        run: mvn -B clean package
+        
       - name: Build Docker image
-        run: docker build -t hajaraburmeileh/hello:${{ github.sha }} -t hajaraburmeileh/hello:latest .
-        working-directory: . 
+        run: docker build -t hajaraburmeileh/hello:latestt .
       - name: Publish Docker image
-        run: docker push hajaraburmeileh/hello --all-tags
-             
+        run: docker push hajaraburmeileh/hello
