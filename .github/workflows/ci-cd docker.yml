@@ -57,6 +57,6 @@ jobs:
         run: mvn -B clean package
         
       - name: Build Docker image
-        run: docker build -t hajaraburmeileh/hello:latestt .
+        run: docker build -t hajaraburmeileh/hello:latest .
       - name: Publish Docker image
-        run: docker push hajaraburmeileh/hello
+        run: docker push hajaraburmeileh/hello:latest
