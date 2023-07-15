@@ -49,6 +49,7 @@ jobs:
           
       - name: Build Docker image
         run: docker build -t hajaraburmeileh/hello:${{ github.sha }} -t hajaraburmeileh/hello:latest .
+        working-directory: . 
       - name: Publish Docker image
         run: docker push hajaraburmeileh/hello --all-tags
              
