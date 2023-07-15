@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ developer]
-    on: workflow_dispatch
+
 permissions:
         id-token: write
         contents: read
